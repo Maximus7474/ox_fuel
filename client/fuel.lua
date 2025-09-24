@@ -9,7 +9,8 @@ local fuel = {}
 ---@param replicate? boolean
 function fuel.setFuel(vehState, vehicle, amount, replicate)
 	if DoesEntityExist(vehicle) then
-		amount = math.clamp(amount, 0, 100)
+		local maxFuel = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fPetrolTankVolume')
+		amount = math.clamp(amount, 0, maxFuel)
 
 		SetVehicleFuelLevel(vehicle, amount)
 		vehState:set('fuel', amount, replicate)
