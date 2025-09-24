@@ -57,13 +57,12 @@ function fuel.getPetrolCan(coords, refuel)
 end
 
 function fuel.startFueling(vehicle, isPump)
-	local vehState = Entity(vehicle).state
-	local fuelAmount = vehState.fuel or GetVehicleFuelLevel(vehicle)
+	local fuelAmount, maxFuel = fuel.getFuel(vehicle)
 	local duration = math.ceil((100 - fuelAmount) / config.refillValue) * config.refillTick
 	local price, moneyAmount
 	local durability = 0
 
-	if 100 - fuelAmount < config.refillValue then
+	if maxFuel - fuelAmount < config.refillValue then
 		return lib.notify({ type = 'error', description = locale('tank_full') })
 	end
 
@@ -138,9 +137,9 @@ function fuel.startFueling(vehicle, isPump)
 
 		fuelAmount += config.refillValue
 
-		if fuelAmount >= 100 then
+		if fuelAmount >= maxFuel then
 			state.isFueling = false
-			fuelAmount = 100.0
+			fuelAmount = maxFuel
 		end
 
 		Wait(config.refillTick)
