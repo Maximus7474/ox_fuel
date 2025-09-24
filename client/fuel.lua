@@ -58,7 +58,6 @@ end
 
 function fuel.startFueling(vehicle, isPump)
 	local fuelAmount, maxFuel = fuel.getFuel(vehicle)
-	local duration = math.ceil((100 - fuelAmount) / config.refillValue) * config.refillTick
 	local price, moneyAmount
 	local durability = 0
 
@@ -84,6 +83,18 @@ function fuel.startFueling(vehicle, isPump)
 			description = locale('petrolcan_not_enough_fuel')
 		})
 	end
+
+
+	local duration
+	local fuelNeeded = maxFuel - fuelAmount
+	if isPump then
+		duration = math.ceil(fuelNeeded / config.refillValue) * config.refillTick
+	else
+		local fuelInCan = state.petrolCan.metadata.ammo * config.refillValue / config.durabilityTick
+
+		duration = math.ceil(math.min(fuelNeeded, fuelInCan) / config.refillValue) * config.refillTick
+	end
+
 
 	state.isFueling = true
 
