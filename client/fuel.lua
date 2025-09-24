@@ -28,6 +28,8 @@ function fuel.getFuel(vehicle)
 	return fuelAmount, maxFuel
 end
 
+exports('getFuel', fuel.getFuel)
+
 function fuel.getPetrolCan(coords, refuel)
 	TaskTurnPedToFaceCoord(cache.ped, coords.x, coords.y, coords.z, config.petrolCan.duration)
 	Wait(500)
