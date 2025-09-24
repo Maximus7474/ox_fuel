@@ -1,7 +1,7 @@
 if not lib.checkDependency('ox_lib', '3.22.0', true) then return end
 if not lib.checkDependency('ox_inventory', '2.30.0', true) then return end
 
-return {
+local config = {
 	-- Get notified when a new version releases
 	versionCheck = true,
 
@@ -18,7 +18,7 @@ return {
 
 	-- Total duration (ex. 10% missing fuel): 10 / 0.25 * 250 = 10 seconds
 
-	-- Fuel refill value (every 250msec add 0.25%)
+	-- Fuel refill value (every 250msec add 0.5 liters)
 	refillValue = 0.50,
 
 	-- Fuel tick time (every 250 msec)
@@ -27,8 +27,8 @@ return {
 	-- Fuel cost (Added once every tick)
 	priceTick = 5,
 
-	-- Can durability loss per refillTick
-	durabilityTick = 1.3,
+	-- Amount of fuel in a jerr can (in liters)
+	fuelInCan = 20,
 
 	-- Enables fuel can
 	petrolCan = {
@@ -52,3 +52,7 @@ return {
 		`prop_gas_pump_1d`,
 	}
 }
+
+config.durabilityTick = 100 / (config.fuelInCan / config.refillValue)
+
+return config
