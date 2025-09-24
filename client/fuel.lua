@@ -16,6 +16,17 @@ function fuel.setFuel(vehState, vehicle, amount, replicate)
 	end
 end
 
+---Get the fuel level of a vehicle
+---@param vehicle number
+---@return number, number values tuple of fuel amount, maximum fuel volume
+function fuel.getFuel(vehicle)
+	local vehState = Entity(vehicle).state
+	local fuelAmount = vehState.fuel or GetVehicleFuelLevel(vehicle)
+	local maxFuel = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fPetrolTankVolume')
+
+	return fuelAmount, maxFuel
+end
+
 function fuel.getPetrolCan(coords, refuel)
 	TaskTurnPedToFaceCoord(cache.ped, coords.x, coords.y, coords.z, config.petrolCan.duration)
 	Wait(500)
