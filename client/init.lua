@@ -1,9 +1,12 @@
 local config = require 'config'
+local vehicles = require 'data.vehicles'
 
 if not config then return end
 
 SetFuelConsumptionState(true)
-SetFuelConsumptionRateMultiplier(config.globalFuelConsumptionRate)
+if config.globalFuelConsumptionRate then
+	SetFuelConsumptionRateMultiplier(config.globalFuelConsumptionRate)
+end
 
 AddTextEntry('fuelHelpText', locale('fuel_help'))
 AddTextEntry('petrolcanHelpText', locale('petrolcan_help'))
@@ -18,6 +21,7 @@ require 'client.stations'
 
 local function startDrivingVehicle()
 	local vehicle = cache.vehicle
+	local vehicleModel = GetEntityModel(vehicle)
 
 	if not DoesVehicleUseFuel(vehicle) then return end
 
@@ -28,6 +32,16 @@ local function startDrivingVehicle()
 		while not vehState.fuel do Wait(0) end
 	end
 
+	-- Create locallized value for the thread to define the consumptionRate
+	local consumptionRate = config.globalFuelConsumptionRate
+	if type(vehicles.models[vehicleModel]) == 'number' then
+		consumptionRate = vehicles.models[vehicleModel]
+	else
+		local class = GetVehicleClass(vehicle)
+
+		consumptionRate = vehicles[class]
+	end
+
 	SetVehicleFuelLevel(vehicle, vehState.fuel)
 
 	local fuelTick = 0
@@ -35,7 +49,7 @@ local function startDrivingVehicle()
 	while cache.seat == -1 do
 		if GetIsVehicleEngineRunning(vehicle) then
 			if not DoesEntityExist(vehicle) then return end
-			SetFuelConsumptionRateMultiplier(config.globalFuelConsumptionRate)
+			SetFuelConsumptionRateMultiplier(consumptionRate)
 
 			local fuelAmount = tonumber(vehState.fuel)
 			local newFuel = GetVehicleFuelLevel(vehicle)
