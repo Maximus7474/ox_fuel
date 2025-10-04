@@ -24,5 +24,8 @@ return {
 	models = {
 		[GetHashKey('tug')] = 14.0,
 		[GetHashKey('kosatka')] = 16.0,
+		[GetHashKey('seashark')] = 3.0,
+		[GetHashKey('seashark2')] = 3.0,
+		[GetHashKey('seashark3')] = 3.0,
 	},
 }
