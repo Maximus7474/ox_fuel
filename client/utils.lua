@@ -50,6 +50,10 @@ function utils.getVehiclePetrolCapBoneIndex(vehicle)
 	end
 end
 
+function utils.isElectric(vehicle)
+	return GetVehicleHasFlag(vehicle, 43)
+end
+
 ---@return number
 local function defaultMoneyCheck()
 	return exports.ox_inventory:GetItemCount('money')
