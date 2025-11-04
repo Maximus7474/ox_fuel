@@ -21,7 +21,6 @@ require 'client.stations'
 
 local function startDrivingVehicle()
 	local vehicle = cache.vehicle
-	local vehicleModel = GetEntityModel(vehicle)
 
 	if not DoesVehicleUseFuel(vehicle) then return end
 
@@ -33,13 +32,18 @@ local function startDrivingVehicle()
 	end
 
 	-- Create locallized value for the thread to define the consumptionRate
-	local consumptionRate = config.globalFuelConsumptionRate
-	if type(vehicles.models[vehicleModel]) == 'number' then
-		consumptionRate = vehicles.models[vehicleModel]
+	local consumptionRate
+	if config.globalFuelConsumptionRate then
+		consumptionRate = config.globalFuelConsumptionRate
 	else
-		local class = GetVehicleClass(vehicle)
+		local vehicleModel = GetEntityModel(vehicle)
+		if type(vehicles.models[vehicleModel]) == 'number' then
+			consumptionRate = vehicles.models[vehicleModel]
+		else
+			local class = GetVehicleClass(vehicle)
 
-		consumptionRate = vehicles[class]
+			consumptionRate = vehicles[class]
+		end
 	end
 
 	SetVehicleFuelLevel(vehicle, vehState.fuel)
