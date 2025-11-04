@@ -13,7 +13,11 @@ function fuel.setFuel(vehState, vehicle, amount, replicate)
 		amount = math.clamp(amount, 0, maxFuel)
 
 		SetVehicleFuelLevel(vehicle, amount)
-		vehState:set('fuel', amount, replicate)
+
+		if not replicate then return end
+
+		local netId = NetworkGetNetworkIdFromEntity(vehicle)
+		TriggerServerEvent('ox_fuel:setFuel', netId, amount)
 	end
 end
 

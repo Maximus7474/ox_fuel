@@ -27,7 +27,9 @@ local function startDrivingVehicle()
 	local vehState = Entity(vehicle).state
 
 	if not vehState.fuel then
-		vehState:set('fuel', GetVehicleFuelLevel(vehicle), true)
+		local amount = GetVehicleFuelLevel(vehicle)
+		local netId = NetworkGetNetworkIdFromEntity(vehicle)
+		TriggerServerEvent('ox_fuel:setFuel', netId, amount)
 		while not vehState.fuel do Wait(0) end
 	end
 

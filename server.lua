@@ -14,7 +14,6 @@ local function setFuelState(netId, fuel)
 	end
 
 	local state = Entity(vehicle)?.state
-	fuel = math.clamp(fuel, 0, 100)
 
 	state:set('fuel', fuel, true)
 end
@@ -104,4 +103,18 @@ RegisterNetEvent('ox_fuel:updateFuelCan', function(durability, netid, fuel)
 	end
 
 	-- player is sus?
+end)
+
+RegisterNetEvent('ox_fuel:setFuel', function (netid, amount)
+	local source = source
+
+	local playerPed = GetPlayerPed(source)
+	local entity = NetworkGetEntityFromNetworkId(netid)
+
+	if GetVehiclePedIsIn(playerPed, false) ~= entity then
+		DropPlayer(source, 'sussy')
+		return
+	end
+
+	setFuelState(netid, amount)
 end)
