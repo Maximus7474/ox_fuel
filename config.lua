@@ -38,7 +38,8 @@ local config = {
 		refillPrice = 800,
 	},
 
-	---Modifies the fuel consumption rate of all vehicles - see [`SET_FUEL_CONSUMPTION_RATE_MULTIPLIER`](https://docs.fivem.net/natives/?_0x845F3E5C).
+	-- Setting this to a number, will use a global rate for all vehicles, setting it to false will use the data in `data/vehicles.lua`
+	-- Modifies the fuel consumption rate of all vehicles - see [`SET_FUEL_CONSUMPTION_RATE_MULTIPLIER`](https://docs.fivem.net/natives/?_0x845F3E5C).
 	globalFuelConsumptionRate = 10.0,
 
 	-- Gas pump models
