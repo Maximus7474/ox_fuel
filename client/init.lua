@@ -36,7 +36,7 @@ local function startDrivingVehicle()
 		while not vehState.fuel do Wait(0) end
 	end
 
-	-- Create locallized value for the thread to define the consumptionRate
+	-- Create localized value for the thread to define the consumptionRate
 	local consumptionRate
 	if config.globalFuelConsumptionRate then
 		consumptionRate = config.globalFuelConsumptionRate
@@ -72,7 +72,7 @@ local function startDrivingVehicle()
 						fuelTick = 0
 					end
 
-					fuel.setFuel(vehState, vehicle, newFuel, fuelTick == 0)
+					fuel.setFuel(vehicle, newFuel, fuelTick == 0)
 					fuelTick += 1
 				end
 			end
@@ -83,7 +83,7 @@ local function startDrivingVehicle()
 		Wait(1000)
 	end
 
-	fuel.setFuel(vehState, vehicle, vehState.fuel, true)
+	fuel.setFuel(vehicle, vehState.fuel, true)
 end
 
 if cache.seat == -1 then CreateThread(startDrivingVehicle) end

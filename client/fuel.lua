@@ -3,11 +3,10 @@ local state = require 'client.state'
 local utils = require 'client.utils'
 local fuel = {}
 
----@param vehState StateBag
 ---@param vehicle integer
 ---@param amount number
 ---@param replicate? boolean
-function fuel.setFuel(vehState, vehicle, amount, replicate)
+function fuel.setFuel(vehicle, amount, replicate)
 	if DoesEntityExist(vehicle) then
 		local maxFuel = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fPetrolTankVolume')
 		amount = math.clamp(amount, 0, maxFuel)
