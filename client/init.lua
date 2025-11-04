@@ -22,6 +22,9 @@ require 'client.stations'
 local function startDrivingVehicle()
 	local vehicle = cache.vehicle
 
+	-- For the moment exclude electric vehicles
+	if utils.isElectric(vehicle) then return end
+
 	if not DoesVehicleUseFuel(vehicle) then return end
 
 	local vehState = Entity(vehicle).state
@@ -99,6 +102,16 @@ if config.ox_target then return require 'client.target' end
 
 RegisterCommand('startfueling', function()
 	if state.isFueling or cache.vehicle or lib.progressActive() then return end
+
+	-- For the moment exclude electric vehicles
+	if utils.isElectric(cache.vehicle) then
+		lib.notify({
+			title = 'Not possible',
+			description = 'You can not refuel an electric vehicle',
+			type = 'error',
+		})
+		return
+	end
 
 	local petrolCan = config.petrolCan.enabled and GetSelectedPedWeapon(cache.ped) == `WEAPON_PETROLCAN`
 	local playerCoords = GetEntityCoords(cache.ped)
